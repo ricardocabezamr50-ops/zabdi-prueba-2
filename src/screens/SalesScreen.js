@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+﻿import React, { useEffect, useState, useCallback } from 'react';
 import { View, Alert, FlatList, KeyboardAvoidingView, Platform } from 'react-native';
 import { Searchbar, List, Divider, TextInput, Button, Text } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
@@ -55,17 +55,17 @@ export default function SalesScreen() {
     const price = Number(unitPrice);
     const pago = pagoRecibido === '' ? null : Number(pagoRecibido);
 
-    if (!selected) return Alert.alert('Atención', 'Elegí un producto primero.');
-    if (!Number.isFinite(quantity) || quantity <= 0) return Alert.alert('Atención', 'Cantidad inválida.');
-    if (!Number.isFinite(price) || price <= 0) return Alert.alert('Atención', 'Precio inválido.');
-    if (pago !== null && (!Number.isFinite(pago) || pago < 0)) return Alert.alert('Atención', 'Pago inválido.');
+    if (!selected) return Alert.alert('AtenciÃ³n', 'ElegÃ­ un producto primero.');
+    if (!Number.isFinite(quantity) || quantity <= 0) return Alert.alert('AtenciÃ³n', 'Cantidad invÃ¡lida.');
+    if (!Number.isFinite(price) || price <= 0) return Alert.alert('AtenciÃ³n', 'Precio invÃ¡lido.');
+    if (pago !== null && (!Number.isFinite(pago) || pago < 0)) return Alert.alert('AtenciÃ³n', 'Pago invÃ¡lido.');
 
     try {
       const res = await saveSale({
         productoId: selected.id,
         cantidad: quantity,
         precioUnit: price,
-        pagado: pago, // 👈 ahora guardamos el pago parcial en DB
+        pagado: pago, // ðŸ‘ˆ ahora guardamos el pago parcial en DB
       });
 
       const total = res?.total ?? (quantity * price);
@@ -79,7 +79,7 @@ export default function SalesScreen() {
 
       Alert.alert(
         'Venta registrada',
-        `Total $${total.toFixed(2)} · Pagado $${pagado.toFixed(2)} · Saldo $${(total - pagado).toFixed(2)}`
+        `Total $${total.toFixed(2)} Â· Pagado $${pagado.toFixed(2)} Â· Saldo $${(total - pagado).toFixed(2)}`
       );
 
       clearSelection();
@@ -94,7 +94,7 @@ export default function SalesScreen() {
     <>
       <List.Item
         onPress={() => chooseProduct(item)}
-        title={`${item.nombre}  ·  $${item.precio_venta}`}
+        title={`${item.nombre}  Â·  $${item.precio_venta}`}
         description={`Talle: ${item.talle ?? '-'}    Stock: ${item.stock ?? 0}`}
         left={props => <List.Icon {...props} icon="shopping" />}
         right={props => <List.Icon {...props} icon="chevron-right" />}
@@ -111,16 +111,17 @@ export default function SalesScreen() {
 
         <View style={{ padding: 12, borderTopWidth: 1, borderColor: '#eee', gap: 8 }}>
           <Text style={{ fontWeight: 'bold' }}>
-            {selected ? `Producto: ${selected.nombre}` : 'Elegí un producto'}
+            {selected ? `Producto: ${selected.nombre}` : 'ElegÃ­ un producto'}
           </Text>
           <TextInput label="Cantidad" keyboardType="numeric" value={qty} onChangeText={setQty} disabled={!selected} left={<TextInput.Icon icon="counter" />} />
           <TextInput label="Precio unitario" keyboardType="numeric" value={unitPrice} onChangeText={setUnitPrice} disabled={!selected} left={<TextInput.Icon icon="cash" />} />
           <TextInput label="Clienta (opcional)" value={clienta} onChangeText={setClienta} disabled={!selected} left={<TextInput.Icon icon="account" />} />
-          <TextInput label="Pago recibido (opcional)" keyboardType="numeric" value={pagoRecibido} onChangeText={setPagoRecibido} disabled={!selected} left={<TextInput.Icon icon="cash-multiple" />} placeholder="Dejá vacío si paga todo" />
+          <TextInput label="Pago recibido (opcional)" keyboardType="numeric" value={pagoRecibido} onChangeText={setPagoRecibido} disabled={!selected} left={<TextInput.Icon icon="cash-multiple" />} placeholder="DejÃ¡ vacÃ­o si paga todo" />
           <Button mode="contained" onPress={confirmSale} disabled={!selected}>Registrar venta (descontar stock)</Button>
-          {selected && <Button onPress={clearSelection}>Cancelar selección</Button>}
+          {selected && <Button onPress={clearSelection}>Cancelar selecciÃ³n</Button>}
         </View>
       </View>
     </KeyboardAvoidingView>
   );
 }
+

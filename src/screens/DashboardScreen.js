@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+﻿import React, { useEffect, useState, useCallback } from 'react';
 import { ScrollView, View } from 'react-native';
 import { Card, Text, Button, Chip, Divider } from 'react-native-paper';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
@@ -73,7 +73,7 @@ export default function DashboardScreen() {
   return (
     <ScrollView contentContainerStyle={{ padding: 12, backgroundColor: '#f6f7fb' }}>
       <Card style={styles.card}>
-        <Card.Title title={`Resumen del mes · ${month}`} />
+        <Card.Title title={`Resumen del mes Â· ${month}`} />
         <Card.Content style={{ gap: 8 }}>
           <Text variant="titleMedium">Caja disponible: <Money value={cajaDisponible} /></Text>
           <View style={{ flexDirection: 'row', gap: 12, flexWrap: 'wrap' }}>
@@ -91,7 +91,7 @@ export default function DashboardScreen() {
           <Text>Ganancia del mes: <Money value={gananciaMes} /></Text>
           <View style={{ flexDirection: 'row', gap: 12, flexWrap: 'wrap', marginTop: 6 }}>
             <Chip icon="ticket-confirmation-outline" style={styles.chip}>Ticket prom.: <Money value={ticketProm} /></Chip>
-            <Chip icon="shopping-outline" style={styles.chip}>Nº ventas: {numVentas}</Chip>
+            <Chip icon="shopping-outline" style={styles.chip}>NÂº ventas: {numVentas}</Chip>
           </View>
         </Card.Content>
       </Card>
@@ -100,11 +100,11 @@ export default function DashboardScreen() {
       <Card style={[styles.card, { marginBottom: 16 }]}>
         <Card.Title title="Top productos del mes" />
         <Card.Content>
-          {top.length === 0 && <Text style={{ opacity: 0.6 }}>Sin ventas aún este mes.</Text>}
+          {top.length === 0 && <Text style={{ opacity: 0.6 }}>Sin ventas aÃºn este mes.</Text>}
           {top.map((t, idx) => (
             <View key={idx} style={{ paddingVertical: 6 }}>
-              <Text style={{ fontWeight: '600' }}>{idx + 1}. {t.nombre} — {t.qty} u.</Text>
-              <Text style={{ opacity: 0.7 }}>Facturación: <Money value={t.total} /></Text>
+              <Text style={{ fontWeight: '600' }}>{idx + 1}. {t.nombre} â€” {t.qty} u.</Text>
+              <Text style={{ opacity: 0.7 }}>FacturaciÃ³n: <Money value={t.total} /></Text>
               {idx < top.length - 1 && <Divider style={{ marginTop: 6 }} />}
             </View>
           ))}
@@ -112,7 +112,7 @@ export default function DashboardScreen() {
       </Card>
 
       <Card style={[styles.card, { marginBottom: 16 }]}>
-        <Card.Title title="Acciones rápidas" />
+        <Card.Title title="Acciones rÃ¡pidas" />
         <Card.Content style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
           <Button mode="contained" icon="cube-send" onPress={() => nav.navigate('Inventario')}>Agregar producto</Button>
           <Button mode="contained" icon="cart" onPress={() => nav.navigate('Vender')}>Registrar venta</Button>
@@ -128,3 +128,4 @@ const styles = {
   card: { borderRadius: 16, backgroundColor: '#f4f2ff', elevation: 2 },
   chip: { backgroundColor: '#eef2ff' },
 };
+

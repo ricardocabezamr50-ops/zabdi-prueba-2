@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+﻿import React, { useCallback, useState } from "react";
 import { View, Text, FlatList, Alert } from "react-native";
 import RowActions from "../components/RowActions";
 import { getAll, deleteItem } from "../storage";
@@ -11,7 +11,7 @@ export default function PasivosScreen() {
   useFocusEffect(useCallback(() => { load(); }, []));
 
   const handleDelete = (id) =>
-    Alert.alert("Confirmar", "¿Borrar este pasivo?", [
+    Alert.alert("Confirmar", "Â¿Borrar este pasivo?", [
       { text: "Cancelar", style: "cancel" },
       { text: "Borrar", style: "destructive", onPress: async () => { await deleteItem("passives", id); load(); } },
     ]);
@@ -20,8 +20,8 @@ export default function PasivosScreen() {
 
   const renderItem = ({ item }) => (
     <View style={{ padding: 12, borderBottomWidth: 1, borderColor: "#eee" }}>
-      <Text style={{ fontWeight: "bold" }}>{item.title ?? "Sin título"}</Text>
-      <Text>${item.amount ?? 0} • vence: {item.dueDate ?? ""}</Text>
+      <Text style={{ fontWeight: "bold" }}>{item.title ?? "Sin tÃ­tulo"}</Text>
+      <Text>${item.amount ?? 0} â€¢ vence: {item.dueDate ?? ""}</Text>
       <View style={{ marginTop: 8 }}>
         <RowActions onEdit={() => handleEdit(item.id)} onDelete={() => handleDelete(item.id)} />
       </View>

@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+﻿import dayjs from 'dayjs';
 export const todayISO = () => dayjs().toISOString();
 export const monthKey = (iso) => dayjs(iso).format('YYYY-MM');
 export const currency = (n) => {

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+﻿import React, { useCallback, useState } from "react";
 import { View, Text, FlatList, Alert } from "react-native";
 import RowActions from "../components/RowActions";
 import { getAll, deleteItem } from "../storage";
@@ -11,7 +11,7 @@ export default function ExpensesScreen() {
   useFocusEffect(useCallback(() => { load(); }, []));
 
   const handleDelete = (id) =>
-    Alert.alert("Confirmar", "¿Borrar este gasto?", [
+    Alert.alert("Confirmar", "Â¿Borrar este gasto?", [
       { text: "Cancelar", style: "cancel" },
       { text: "Borrar", style: "destructive", onPress: async () => { await deleteItem("expenses", id); load(); } },
     ]);
@@ -21,7 +21,7 @@ export default function ExpensesScreen() {
   const renderItem = ({ item }) => (
     <View style={{ padding: 12, borderBottomWidth: 1, borderColor: "#eee" }}>
       <Text style={{ fontWeight: "bold" }}>{item.concept ?? "Sin concepto"}</Text>
-      <Text>${item.amount ?? 0} • {item.date ?? ""}</Text>
+      <Text>${item.amount ?? 0} â€¢ {item.date ?? ""}</Text>
       <View style={{ marginTop: 8 }}>
         <RowActions onEdit={() => handleEdit(item.id)} onDelete={() => handleDelete(item.id)} />
       </View>

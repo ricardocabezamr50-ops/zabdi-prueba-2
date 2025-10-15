@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { Card, Text } from 'react-native-paper';
 import dayjs from 'dayjs';
@@ -48,12 +48,13 @@ export default function HomeScreen(){
         <Card.Title title="Sugerencias" />
         <Card.Content>
           <Text style={{ opacity: 0.7 }}>
-            • Cargá más productos en Inventario.{"\n"}
-            • Usá “Vender” para registrar ventas con pago parcial y saldo.{"\n"}
-            • Mirá tus estadísticas por día en la pestaña *Estadísticas*.
+            â€¢ CargÃ¡ mÃ¡s productos en Inventario.{"\n"}
+            â€¢ UsÃ¡ â€œVenderâ€ para registrar ventas con pago parcial y saldo.{"\n"}
+            â€¢ MirÃ¡ tus estadÃ­sticas por dÃ­a en la pestaÃ±a *EstadÃ­sticas*.
           </Text>
         </Card.Content>
       </Card>
     </View>
   );
 }
+

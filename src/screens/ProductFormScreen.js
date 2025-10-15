@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import { View, TextInput, Button, Alert } from "react-native";
 import { addItem, getById, updateItem } from "../storage";
 
@@ -23,7 +23,7 @@ export default function ProductFormScreen({ route, navigation }) {
   }, [mode, id]);
 
   const onSubmit = async () => {
-    if (!name.trim()) { Alert.alert("Validación", "Ingresá un nombre"); return; }
+    if (!name.trim()) { Alert.alert("ValidaciÃ³n", "IngresÃ¡ un nombre"); return; }
     const payload = { name, sku, stock: Number(stock) || 0 };
     if (mode === "edit" && id) await updateItem("products", id, payload);
     else await addItem("products", payload);

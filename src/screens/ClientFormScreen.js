@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import { View, TextInput, Button, Alert } from "react-native";
 import { addItem, getById, updateItem } from "../storage";
 
@@ -21,7 +21,7 @@ export default function ClientFormScreen({ route, navigation }) {
   }, [mode, id]);
 
   const onSubmit = async () => {
-    if (!name.trim()) { Alert.alert("Validación", "Ingresá un nombre"); return; }
+    if (!name.trim()) { Alert.alert("ValidaciÃ³n", "IngresÃ¡ un nombre"); return; }
     const payload = { name, phone, email };
     if (mode === "edit" && id) await updateItem("clients", id, payload);
     else await addItem("clients", payload);
@@ -31,7 +31,7 @@ export default function ClientFormScreen({ route, navigation }) {
   return (
     <View style={{ padding: 16, gap: 12 }}>
       <TextInput placeholder="Nombre" value={name} onChangeText={setName} style={{ borderWidth: 1, padding: 8 }} />
-      <TextInput placeholder="Teléfono" value={phone} onChangeText={setPhone} style={{ borderWidth: 1, padding: 8 }} />
+      <TextInput placeholder="TelÃ©fono" value={phone} onChangeText={setPhone} style={{ borderWidth: 1, padding: 8 }} />
       <TextInput placeholder="Email" value={email} onChangeText={setEmail} style={{ borderWidth: 1, padding: 8 }} />
       <Button title={mode === "edit" ? "Guardar cambios" : "Crear cliente"} onPress={onSubmit} />
     </View>

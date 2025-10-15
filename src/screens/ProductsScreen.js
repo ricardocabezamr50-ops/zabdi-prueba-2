@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+﻿import React, { useEffect, useState, useCallback } from "react";
 import { View, Text, FlatList, Alert } from "react-native";
 import RowActions from "../components/RowActions";
 import { getAll, deleteItem } from "../storage";
@@ -12,7 +12,7 @@ export default function ProductsScreen() {
   useFocusEffect(useCallback(() => { load(); }, []));
 
   const handleDelete = (id) => {
-    Alert.alert("Confirmar", "¿Borrar este producto?", [
+    Alert.alert("Confirmar", "Â¿Borrar este producto?", [
       { text: "Cancelar", style: "cancel" },
       { text: "Borrar", style: "destructive", onPress: async () => { await deleteItem("products", id); load(); } },
     ]);
@@ -23,7 +23,7 @@ export default function ProductsScreen() {
   const renderItem = ({ item }) => (
     <View style={{ padding: 12, borderBottomWidth: 1, borderColor: "#eee" }}>
       <Text style={{ fontWeight: "bold" }}>{item.name ?? "Sin nombre"}</Text>
-      <Text>{item.sku ?? ""} • Stock: {item.stock ?? 0}</Text>
+      <Text>{item.sku ?? ""} â€¢ Stock: {item.stock ?? 0}</Text>
       <View style={{ marginTop: 8 }}>
         <RowActions onEdit={() => handleEdit(item.id)} onDelete={() => handleDelete(item.id)} />
       </View>

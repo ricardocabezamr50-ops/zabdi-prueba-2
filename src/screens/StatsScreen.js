@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { ScrollView, Dimensions } from 'react-native';
 import { Card, Text } from 'react-native-paper';
 import dayjs from 'dayjs';
@@ -31,7 +31,7 @@ export default function StatsScreen(){
       setTotalMes(Number(tot?.ventas ?? 0));
       setGananciaMes(Number(tot?.ganancia ?? 0));
 
-      // Por día del mes (group by substr(fecha,1,10))
+      // Por dÃ­a del mes (group by substr(fecha,1,10))
       const rows = await db.getAllAsync(
         `SELECT substr(v.fecha,1,10) AS dia, SUM(v.total) AS total
          FROM ventas v
@@ -64,7 +64,7 @@ export default function StatsScreen(){
       </Card>
 
       <Card style={{ borderRadius: 16 }}>
-        <Card.Title title="Ventas por día (mes actual)" />
+        <Card.Title title="Ventas por dÃ­a (mes actual)" />
         <Card.Content>
           <BarChart
             data={{ labels, datasets: [{ data: serie }] }}
@@ -87,3 +87,4 @@ export default function StatsScreen(){
     </ScrollView>
   );
 }
+

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import { View, TextInput, Button, Alert } from "react-native";
 import { addItem, getById, updateItem } from "../storage";
 
@@ -21,7 +21,7 @@ export default function ExpenseFormScreen({ route, navigation }) {
   }, [mode, id]);
 
   const onSubmit = async () => {
-    if (!concept.trim()) { Alert.alert("Validación", "Ingresá un concepto"); return; }
+    if (!concept.trim()) { Alert.alert("ValidaciÃ³n", "IngresÃ¡ un concepto"); return; }
     const payload = { concept, amount: Number(amount) || 0, date };
     if (mode === "edit" && id) await updateItem("expenses", id, payload);
     else await addItem("expenses", payload);

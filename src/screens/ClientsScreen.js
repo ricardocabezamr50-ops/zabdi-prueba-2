@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+﻿import React, { useCallback, useState } from "react";
 import { View, Text, FlatList, Alert } from "react-native";
 import RowActions from "../components/RowActions";
 import { getAll, deleteItem } from "../storage";
@@ -11,7 +11,7 @@ export default function ClientsScreen() {
   useFocusEffect(useCallback(() => { load(); }, []));
 
   const handleDelete = (id) =>
-    Alert.alert("Confirmar", "¿Borrar este cliente?", [
+    Alert.alert("Confirmar", "Â¿Borrar este cliente?", [
       { text: "Cancelar", style: "cancel" },
       { text: "Borrar", style: "destructive", onPress: async () => { await deleteItem("clients", id); load(); } },
     ]);
@@ -21,7 +21,7 @@ export default function ClientsScreen() {
   const renderItem = ({ item }) => (
     <View style={{ padding: 12, borderBottomWidth: 1, borderColor: "#eee" }}>
       <Text style={{ fontWeight: "bold" }}>{item.name ?? "Sin nombre"}</Text>
-      <Text>{item.phone ?? ""} • {item.email ?? ""}</Text>
+      <Text>{item.phone ?? ""} â€¢ {item.email ?? ""}</Text>
       <View style={{ marginTop: 8 }}>
         <RowActions onEdit={() => handleEdit(item.id)} onDelete={() => handleDelete(item.id)} />
       </View>

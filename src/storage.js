@@ -1,4 +1,4 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+﻿import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const KEYS = {
   products: "@zabdi/products",
@@ -9,14 +9,14 @@ const KEYS = {
 
 const load = async (collection) => {
   const key = KEYS[collection];
-  if (!key) throw new Error(`Colección desconocida: ${collection}`);
+  if (!key) throw new Error(`ColecciÃ³n desconocida: ${collection}`);
   const raw = await AsyncStorage.getItem(key);
   return raw ? JSON.parse(raw) : [];
 };
 
 const save = async (collection, list) => {
   const key = KEYS[collection];
-  if (!key) throw new Error(`Colección desconocida: ${collection}`);
+  if (!key) throw new Error(`ColecciÃ³n desconocida: ${collection}`);
   await AsyncStorage.setItem(key, JSON.stringify(list));
 };
 

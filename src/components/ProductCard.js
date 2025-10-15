@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Card, Text, IconButton } from 'react-native-paper';
 import Money from './Money';
 

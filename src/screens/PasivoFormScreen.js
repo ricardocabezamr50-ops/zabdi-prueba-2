@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import { View, TextInput, Button, Alert } from "react-native";
 import { addItem, getById, updateItem } from "../storage";
 
@@ -21,7 +21,7 @@ export default function PasivoFormScreen({ route, navigation }) {
   }, [mode, id]);
 
   const onSubmit = async () => {
-    if (!title.trim()) { Alert.alert("Validación", "Ingresá un título"); return; }
+    if (!title.trim()) { Alert.alert("ValidaciÃ³n", "IngresÃ¡ un tÃ­tulo"); return; }
     const payload = { title, amount: Number(amount) || 0, dueDate };
     if (mode === "edit" && id) await updateItem("passives", id, payload);
     else await addItem("passives", payload);
@@ -30,7 +30,7 @@ export default function PasivoFormScreen({ route, navigation }) {
 
   return (
     <View style={{ padding: 16, gap: 12 }}>
-      <TextInput placeholder="Título" value={title} onChangeText={setTitle} style={{ borderWidth: 1, padding: 8 }} />
+      <TextInput placeholder="TÃ­tulo" value={title} onChangeText={setTitle} style={{ borderWidth: 1, padding: 8 }} />
       <TextInput placeholder="Monto" value={amount} onChangeText={setAmount} keyboardType="numeric" style={{ borderWidth: 1, padding: 8 }} />
       <TextInput placeholder="Vencimiento" value={dueDate} onChangeText={setDueDate} style={{ borderWidth: 1, padding: 8 }} />
       <Button title={mode === "edit" ? "Guardar cambios" : "Crear pasivo"} onPress={onSubmit} />
