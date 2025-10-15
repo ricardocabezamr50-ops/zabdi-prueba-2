@@ -17,7 +17,15 @@ import PasivosScreen from '../screens/PasivosScreen';
 
 import ProductoForm from '../../ProductoForm';
 import GastoForm from '../../GastoForm';
-import PasivoForm from '../../PasivoForm';
+import PasivoForm from '../../PasivoForm';
+import ProductsScreen from "../screens/ProductsScreen";
+import ProductFormScreen from "../screens/ProductFormScreen";
+import ClientsScreen from "../screens/ClientsScreen";
+import ClientFormScreen from "../screens/ClientFormScreen";
+import ExpensesScreen from "../screens/ExpensesScreen";
+import ExpenseFormScreen from "../screens/ExpenseFormScreen";
+import PasivosScreen from "../screens/PasivosScreen";
+import PasivoFormScreen from "../screens/PasivoFormScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -98,6 +106,13 @@ export function AppNavigator() {
   return (
     <AppContext.Provider value={{ state, setState }}>
       <Stack.Navigator>
+      <Stack.Screen name="Expenses" component={ExpensesScreen} />
+      <Stack.Screen name="ClientForm" component={ClientFormScreen} />
+      <Stack.Screen name="Clients" component={ClientsScreen} />
+      <Stack.Screen name="ProductForm" component={ProductFormScreen} />
+      <Stack.Screen name="ExpenseForm" component={ExpenseFormScreen} />
+      <Stack.Screen name="Products" component={ProductsScreen} />
+
         <Stack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
         <Stack.Screen name="ProductoForm" component={ProductoForm} options={{ title: 'Nuevo producto' }} />
         <Stack.Screen name="GastoForm" component={GastoForm} options={{ title: 'Nuevo gasto' }} />
