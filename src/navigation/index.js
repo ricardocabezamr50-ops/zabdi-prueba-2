@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import { ActivityIndicator, Button } from 'react-native-paper';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -49,7 +49,7 @@ function Tabs() {
         headerTitleAlign: 'left',
         headerRight: () => {
           if (route.name === 'Inventario') {
-            return <Button icon="plus" onPress={() => navigation.navigate('ProductForm')}>Nuevo</Button>;
+            return <Button icon="plus" onPress={() => { const p = navigation.getParent?.(); if (p) p.navigate("ProductForm"); else navigation.navigate("ProductForm"); }}>Nuevo</Button>;
           }
           if (route.name === 'Gastos') {
             return <Button icon="plus" onPress={() => navigation.navigate('ExpenseForm')}>Nuevo</Button>;

@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { View, Text, FlatList, Alert } from "react-native";
 import RowActions from "../components/RowActions";
 import { getAll, deleteItem } from "../storage";
@@ -18,7 +18,11 @@ export default function ProductsScreen() {
     ]);
   };
 
-  const handleEdit = (id) => navigation.navigate("ProductForm", { mode: "edit", id });
+  const handleEdit = (id) => {
+      const parent = typeof navigation.getParent === "function" ? navigation.getParent() : null;
+      if (parent) parent.navigate("ProductForm", { mode: "edit", id });
+      else navigation.navigate("ProductForm", { mode: "edit", id });
+    };
 
   const renderItem = ({ item }) => (
     <View style={{ padding: 12, borderBottomWidth: 1, borderColor: "#eee" }}>
