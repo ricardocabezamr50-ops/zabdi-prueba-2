@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "ZABDI Calzados",
+    "slug": "zabdi-calzados",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#15803D"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#15803D"
+      },
+      "package": "com.zabdi.calzados"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "8713f28d-8365-4963-8a7f-311e328779d9"
+      }
+    }
+  }
+}
