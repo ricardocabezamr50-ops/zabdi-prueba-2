@@ -10,6 +10,7 @@ import { AppContext } from '../context/AppContext';
 
 import DashboardScreen from '../screens/DashboardScreen';
 import SalesScreen from '../screens/SalesScreen';
+
 import ProductsScreen from "../screens/ProductsScreen";
 import ProductFormScreen from "../screens/ProductFormScreen";
 import ClientsScreen from "../screens/ClientsScreen";
@@ -18,8 +19,6 @@ import ExpensesScreen from "../screens/ExpensesScreen";
 import ExpenseFormScreen from "../screens/ExpenseFormScreen";
 import PasivosScreen from "../screens/PasivosScreen";
 import PasivoFormScreen from "../screens/PasivoFormScreen";
-
-
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -49,7 +48,18 @@ function Tabs() {
         headerTitleAlign: 'left',
         headerRight: () => {
           if (route.name === 'Inventario') {
-            return <Button icon="plus" onPress={() => { const p = navigation.getParent?.(); if (p) p.navigate("ProductForm"); else navigation.navigate("ProductForm"); }}>Nuevo</Button>;
+            return (
+              <Button
+                icon="plus"
+                onPress={() => {
+                  const p = navigation.getParent?.();
+                  if (p) p.navigate('ProductForm');
+                  else navigation.navigate('ProductForm');
+                }}
+              >
+                Nuevo
+              </Button>
+            );
           }
           if (route.name === 'Gastos') {
             return <Button icon="plus" onPress={() => navigation.navigate('ExpenseForm')}>Nuevo</Button>;
@@ -100,27 +110,15 @@ export function AppNavigator() {
   return (
     <AppContext.Provider value={{ state, setState }}>
       <Stack.Navigator>
-      <Stack.Screen name="Products" component={ProductsScreen} />
-      <Stack.Screen name="ProductForm" component={ProductFormScreen} />
-      <Stack.Screen name="Clients" component={ClientsScreen} />
-      <Stack.Screen name="ClientForm" component={ClientFormScreen} />
-      <Stack.Screen name="Expenses" component={ExpensesScreen} />
-      <Stack.Screen name="ExpenseForm" component={ExpenseFormScreen} />
-      <Stack.Screen name="Pasivos" component={PasivosScreen} />
-      <Stack.Screen name="PasivoForm" component={PasivoFormScreen} />
-      <Stack.Screen name="Expenses" component={ExpensesScreen} />
-      <Stack.Screen name="ClientForm" component={ClientFormScreen} />
-      <Stack.Screen name="Clients" component={ClientsScreen} />
-      <Stack.Screen name="ProductForm" component={ProductFormScreen} />
-      <Stack.Screen name="ExpenseForm" component={ExpenseFormScreen} />
-      <Stack.Screen name="Products" component={ProductsScreen} />
-
+        {/* Navegador principal con tabs */}
         <Stack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
-        <Stack.Screen name="ProductForm" component={ProductForm} options={{ title: 'Nuevo producto' }} />
-        <Stack.Screen name="ExpenseForm" component={ExpenseForm} options={{ title: 'Nuevo gasto' }} />
-        <Stack.Screen name="PasivoForm" component={PasivoForm} options={{ title: 'Nuevo pasivo' }} />
+
+        {/* Formularios/Detalle montados en el stack padre */}
+        <Stack.Screen name="ProductForm" component={ProductFormScreen} options={{ title: 'Nuevo producto' }} />
+        <Stack.Screen name="ClientForm" component={ClientFormScreen} options={{ title: 'Nuevo cliente' }} />
+        <Stack.Screen name="ExpenseForm" component={ExpenseFormScreen} options={{ title: 'Nuevo gasto' }} />
+        <Stack.Screen name="PasivoForm" component={PasivoFormScreen} options={{ title: 'Nuevo pasivo' }} />
       </Stack.Navigator>
     </AppContext.Provider>
   );
 }
-
