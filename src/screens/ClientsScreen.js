@@ -1,39 +1,32 @@
-import React, { useCallback, useState } from 'react';
-import { ScrollView } from 'react-native';
-import { Button, Card, Text } from 'react-native-paper';
-import { useFocusEffect } from '@react-navigation/native';
-import { useClientas } from '../../dataclientas';
+import React, { useCallback, useState } from "react";
+import { View, Text, FlatList, Alert } from "react-native";
+import RowActions from "../components/RowActions";
+import { getAll, deleteItem } from "../storage";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
-export default function ClientsScreen(){
-  const { listClientas, setSaldoCero } = useClientas();
+export default function ClientsScreen() {
   const [items, setItems] = useState([]);
+  const navigation = useNavigation();
+  const load = async () => setItems(await getAll("clients"));
+  useFocusEffect(useCallback(() => { load(); }, []));
 
-  const load = useCallback(async ()=>{
-    const rows = await listClientas();
-    setItems(rows);
-  }, [listClientas]);
+  const handleDelete = (id) =>
+    Alert.alert("Confirmar", "¿Borrar este cliente?", [
+      { text: "Cancelar", style: "cancel" },
+      { text: "Borrar", style: "destructive", onPress: async () => { await deleteItem("clients", id); load(); } },
+    ]);
 
-  useFocusEffect(React.useCallback(() => { load(); }, [load]));
+  const handleEdit = (id) => navigation.navigate("ClientForm", { mode: "edit", id });
 
-  const cobrar = async (id)=>{
-    await setSaldoCero(id);
-    await load();
-  };
-
-  return (
-    <ScrollView contentContainerStyle={{ padding: 16 }}>
-      {items.length===0 && <Text>No hay deudas registradas.</Text>}
-      {items.map(c=> (
-        <Card key={c.id} style={{ marginBottom: 12 }}>
-          <Card.Title title={c.nombre} subtitle="Saldo pendiente" />
-          <Card.Content>
-            <Text style={{ fontWeight:'bold' }}>${Number(c.saldo||0).toFixed(2)}</Text>
-          </Card.Content>
-          <Card.Actions>
-            <Button onPress={()=> cobrar(c.id)} mode="contained">Registrar cobro total</Button>
-          </Card.Actions>
-        </Card>
-      ))}
-    </ScrollView>
+  const renderItem = ({ item }) => (
+    <View style={{ padding: 12, borderBottomWidth: 1, borderColor: "#eee" }}>
+      <Text style={{ fontWeight: "bold" }}>{item.name ?? "Sin nombre"}</Text>
+      <Text>{item.phone ?? ""} • {item.email ?? ""}</Text>
+      <View style={{ marginTop: 8 }}>
+        <RowActions onEdit={() => handleEdit(item.id)} onDelete={() => handleDelete(item.id)} />
+      </View>
+    </View>
   );
+
+  return <FlatList data={items} keyExtractor={(x) => x.id} renderItem={renderItem} />;
 }

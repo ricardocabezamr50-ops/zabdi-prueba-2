@@ -1,50 +1,32 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { ScrollView } from 'react-native';
-import { TextInput, Button, List, Text, Divider } from 'react-native-paper';
-import { useFocusEffect } from '@react-navigation/native';
-import { useDb } from '../../data';
+import React, { useCallback, useState } from "react";
+import { View, Text, FlatList, Alert } from "react-native";
+import RowActions from "../components/RowActions";
+import { getAll, deleteItem } from "../storage";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
-export default function ExpensesScreen(){
-  const db = useDb();
-  const [concepto, setConcepto] = useState('');
-  const [monto, setMonto] = useState('');
+export default function ExpensesScreen() {
   const [items, setItems] = useState([]);
+  const navigation = useNavigation();
+  const load = async () => setItems(await getAll("expenses"));
+  useFocusEffect(useCallback(() => { load(); }, []));
 
-  const load = useCallback(async () => {
-    const rows = await db.getAllAsync(`SELECT * FROM gastos ORDER BY id DESC`);
-    setItems(rows);
-  }, [db]);
+  const handleDelete = (id) =>
+    Alert.alert("Confirmar", "¿Borrar este gasto?", [
+      { text: "Cancelar", style: "cancel" },
+      { text: "Borrar", style: "destructive", onPress: async () => { await deleteItem("expenses", id); load(); } },
+    ]);
 
-  useFocusEffect(useCallback(() => { load(); }, [load]));
-  useEffect(() => { load(); }, [load]);
+  const handleEdit = (id) => navigation.navigate("ExpenseForm", { mode: "edit", id });
 
-  const agregar = async ()=>{
-    const m = Number(monto);
-    if (!concepto.trim() || !Number.isFinite(m) || m <= 0) return;
-    await db.runAsync(
-      `INSERT INTO gastos (descripcion, monto, fecha) VALUES (?,?,?)`,
-      [concepto.trim(), m, new Date().toISOString()]
-    );
-    setConcepto(''); setMonto('');
-    await load();
-  };
-
-  return (
-    <ScrollView contentContainerStyle={{ padding: 16 }}>
-      <TextInput label="Concepto" value={concepto} onChangeText={setConcepto} style={{ marginBottom: 8 }} />
-      <TextInput label="Monto" value={monto} onChangeText={setMonto} keyboardType="numeric" style={{ marginBottom: 8 }} />
-      <Button mode="contained" onPress={agregar}>Agregar gasto</Button>
-
-      <Divider style={{ marginVertical: 12 }} />
-      {items.length === 0 && <Text>Sin gastos aún.</Text>}
-      {items.map(g=> (
-        <List.Item
-          key={g.id}
-          title={g.descripcion}
-          description={new Date(g.fecha).toLocaleDateString()}
-          right={()=> <Text style={{ alignSelf:'center' }}>${Number(g.monto).toFixed(2)}</Text>}
-        />
-      ))}
-    </ScrollView>
+  const renderItem = ({ item }) => (
+    <View style={{ padding: 12, borderBottomWidth: 1, borderColor: "#eee" }}>
+      <Text style={{ fontWeight: "bold" }}>{item.concept ?? "Sin concepto"}</Text>
+      <Text>${item.amount ?? 0} • {item.date ?? ""}</Text>
+      <View style={{ marginTop: 8 }}>
+        <RowActions onEdit={() => handleEdit(item.id)} onDelete={() => handleDelete(item.id)} />
+      </View>
+    </View>
   );
+
+  return <FlatList data={items} keyExtractor={(x) => x.id} renderItem={renderItem} />;
 }

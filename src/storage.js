@@ -1,27 +1,56 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const KEYS = {
-  productos: 'prod_v1',
-  ventas: 'ventas_v1',
-  clientas: 'clientas_v1',
-  gastos: 'gastos_v1'
+  products: "@zabdi/products",
+  clients: "@zabdi/clients",
+  expenses: "@zabdi/expenses",
+  passives: "@zabdi/passives",
 };
 
-export async function loadAll() {
-  const [p, v, c, g] = await Promise.all([
-    AsyncStorage.getItem(KEYS.productos),
-    AsyncStorage.getItem(KEYS.ventas),
-    AsyncStorage.getItem(KEYS.clientas),
-    AsyncStorage.getItem(KEYS.gastos)
-  ]);
-  return {
-    productos: p ? JSON.parse(p) : [],
-    ventas: v ? JSON.parse(v) : [],
-    clientas: c ? JSON.parse(c) : [],
-    gastos: g ? JSON.parse(g) : []
-  };
-}
+const load = async (collection) => {
+  const key = KEYS[collection];
+  if (!key) throw new Error(`Colección desconocida: ${collection}`);
+  const raw = await AsyncStorage.getItem(key);
+  return raw ? JSON.parse(raw) : [];
+};
 
-export async function save(key, value) {
-  return AsyncStorage.setItem(KEYS[key], JSON.stringify(value));
-}
+const save = async (collection, list) => {
+  const key = KEYS[collection];
+  if (!key) throw new Error(`Colección desconocida: ${collection}`);
+  await AsyncStorage.setItem(key, JSON.stringify(list));
+};
+
+const genId = () =>
+  Math.random().toString(36).slice(2, 8) + Date.now().toString(36).slice(-6);
+
+export const getAll = async (collection) => await load(collection);
+
+export const getById = async (collection, id) => {
+  const list = await load(collection);
+  return list.find((x) => x.id === id) || null;
+};
+
+export const addItem = async (collection, item) => {
+  const list = await load(collection);
+  const withId = { id: item.id || genId(), ...item };
+  await save(collection, [withId, ...list]);
+  return withId;
+};
+
+export const updateItem = async (collection, id, partial) => {
+  const list = await load(collection);
+  const idx = list.findIndex((x) => x.id === id);
+  if (idx === -1) throw new Error(`No existe ${collection} id=${id}`);
+  const updated = { ...list[idx], ...partial, id };
+  const next = [...list];
+  next[idx] = updated;
+  await save(collection, next);
+  return updated;
+};
+
+export const deleteItem = async (collection, id) => {
+  const list = await load(collection);
+  const next = list.filter((x) => x.id !== id);
+  await save(collection, next);
+  return true;
+};

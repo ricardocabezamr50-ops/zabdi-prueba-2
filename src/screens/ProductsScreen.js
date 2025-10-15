@@ -1,82 +1,41 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { View, FlatList, RefreshControl } from 'react-native';
-import { List, Searchbar, Text } from 'react-native-paper';
-import { useFocusEffect } from '@react-navigation/native';
-import { useProducts } from '../../dataproducts'; // listProducts()
+import React, { useEffect, useState, useCallback } from "react";
+import { View, Text, FlatList, Alert } from "react-native";
+import RowActions from "../components/RowActions";
+import { getAll, deleteItem } from "../storage";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 export default function ProductsScreen() {
-  const { listProducts } = useProducts(); // SQLite:contentReference[oaicite:3]{index=3}
   const [items, setItems] = useState([]);
-  const [filtered, setFiltered] = useState([]);
-  const [query, setQuery] = useState('');
-  const [refreshing, setRefreshing] = useState(false);
+  const navigation = useNavigation();
 
-  const load = useCallback(async () => {
-    const rows = await listProducts();
-    setItems(rows);
-  }, [listProducts]);
+  const load = async () => setItems(await getAll("products"));
+  useFocusEffect(useCallback(() => { load(); }, []));
 
-  // Carga inicial y cada vez que la pantalla gana foco
-  useFocusEffect(
-    useCallback(() => {
-      load();
-    }, [load])
-  );
-
-  useEffect(() => {
-    const q = query.trim().toLowerCase();
-    const data = !q
-      ? items
-      : items.filter(p =>
-          (p?.nombre ?? '').toLowerCase().includes(q) ||
-          String(p?.talle ?? '').toLowerCase().includes(q)
-        );
-    setFiltered(data);
-  }, [items, query]);
-
-  const onRefresh = async () => {
-    setRefreshing(true);
-    try {
-      await load();
-    } finally {
-      setRefreshing(false);
-    }
+  const handleDelete = (id) => {
+    Alert.alert("Confirmar", "¿Borrar este producto?", [
+      { text: "Cancelar", style: "cancel" },
+      { text: "Borrar", style: "destructive", onPress: async () => { await deleteItem("products", id); load(); } },
+    ]);
   };
 
+  const handleEdit = (id) => navigation.navigate("ProductForm", { mode: "edit", id });
+
   const renderItem = ({ item }) => (
-    <List.Item
-      title={`${item.nombre}  ·  Stock: ${item.stock ?? 0}`}
-      description={`Talle: ${item.talle ?? '-'}  ·  Compra: ${item.precio_compra}  ·  Venta: ${item.precio_venta}`}
-      left={props => <List.Icon {...props} icon="warehouse" />}
-    />
+    <View style={{ padding: 12, borderBottomWidth: 1, borderColor: "#eee" }}>
+      <Text style={{ fontWeight: "bold" }}>{item.name ?? "Sin nombre"}</Text>
+      <Text>{item.sku ?? ""} • Stock: {item.stock ?? 0}</Text>
+      <View style={{ marginTop: 8 }}>
+        <RowActions onEdit={() => handleEdit(item.id)} onDelete={() => handleDelete(item.id)} />
+      </View>
+    </View>
   );
 
   return (
-    <View style={{ flex: 1 }}>
-      <Searchbar
-        placeholder="Buscar por nombre o talle"
-        value={query}
-        onChangeText={setQuery}
-        style={{ margin: 12 }}
-      />
-
-      {filtered.length === 0 ? (
-        <View style={{ padding: 16 }}>
-          <Text>No hay productos para mostrar.</Text>
-          <Text style={{ opacity: 0.6, marginTop: 6 }}>
-            Usá el ＋ del header para cargar tu primer producto.
-          </Text>
-        </View>
-      ) : (
-        <FlatList
-          data={filtered}
-          keyExtractor={(item) => String(item.id)}
-          renderItem={renderItem}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        />
-      )}
-    </View>
+    <FlatList
+      data={items}
+      keyExtractor={(x) => x.id}
+      renderItem={renderItem}
+      ListEmptyComponent={<Text style={{ padding: 16 }}>Sin productos</Text>}
+    />
   );
 }

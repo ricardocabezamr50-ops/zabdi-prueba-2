@@ -1,0 +1,9 @@
+// Agregar estas rutas en tu Stack/Router:
+//   name="Products"        component={ProductsScreen}
+//   name="ProductForm"     component={ProductFormScreen}
+//   name="Clients"         component={ClientsScreen}
+//   name="ClientForm"      component={ClientFormScreen}
+//   name="Expenses"        component={ExpensesScreen}
+//   name="ExpenseForm"     component={ExpenseFormScreen}
+//   name="Pasivos"         component={PasivosScreen}
+//   name="PasivoForm"      component={PasivoFormScreen}
