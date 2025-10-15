@@ -9,15 +9,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppContext } from '../context/AppContext';
 
 import DashboardScreen from '../screens/DashboardScreen';
-import ProductsScreen from '../screens/ProductsScreen';
 import SalesScreen from '../screens/SalesScreen';
-import ClientsScreen from '../screens/ClientsScreen';
-import ExpensesScreen from '../screens/ExpensesScreen';
-import PasivosScreen from '../screens/PasivosScreen';
-
-import ProductoForm from '../../ProductoForm';
-import GastoForm from '../../GastoForm';
-import PasivoForm from '../../PasivoForm';
 import ProductsScreen from "../screens/ProductsScreen";
 import ProductFormScreen from "../screens/ProductFormScreen";
 import ClientsScreen from "../screens/ClientsScreen";
@@ -26,6 +18,8 @@ import ExpensesScreen from "../screens/ExpensesScreen";
 import ExpenseFormScreen from "../screens/ExpenseFormScreen";
 import PasivosScreen from "../screens/PasivosScreen";
 import PasivoFormScreen from "../screens/PasivoFormScreen";
+
+
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -106,6 +100,14 @@ export function AppNavigator() {
   return (
     <AppContext.Provider value={{ state, setState }}>
       <Stack.Navigator>
+      <Stack.Screen name="Products" component={ProductsScreen} />
+      <Stack.Screen name="ProductForm" component={ProductFormScreen} />
+      <Stack.Screen name="Clients" component={ClientsScreen} />
+      <Stack.Screen name="ClientForm" component={ClientFormScreen} />
+      <Stack.Screen name="Expenses" component={ExpensesScreen} />
+      <Stack.Screen name="ExpenseForm" component={ExpenseFormScreen} />
+      <Stack.Screen name="Pasivos" component={PasivosScreen} />
+      <Stack.Screen name="PasivoForm" component={PasivoFormScreen} />
       <Stack.Screen name="Expenses" component={ExpensesScreen} />
       <Stack.Screen name="ClientForm" component={ClientFormScreen} />
       <Stack.Screen name="Clients" component={ClientsScreen} />
